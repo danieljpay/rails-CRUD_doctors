@@ -5,5 +5,7 @@
     <%= f.text_field :lastname %>
     <%= f.label :age %>
     <%= f.text_field :age %>
+    <%= f.label :specialty_id %>
+    <%= f.collection_select :specialty_id, Specialty.all, :id, :name, { prompt: "Select Group"} %>
     <%= f.submit @doctor.new_record? ? "Guardar" : "Editar" %>
 <% end %>
