@@ -1,0 +1,17 @@
+<li>
+    <p>
+        Nombre: <%= service.name %>, 
+        Precio: <%= service.price %>, 
+        <%
+=begin%>
+ <%= link_to edit_service_path(doctor), title:"Edit" do %>
+            Editar
+        <% end %>
+        -
+        <%= link_to destroy_service_path(doctor), method: :delete, title:"Delete", data: { confirm: "¿Estás seguro de eliminar este servicio?" } do %>
+            Eliminar
+        <% end %> 
+<%
+=end%>
+    </p>
+</li>

@@ -6,6 +6,19 @@
     <%= f.label :age %>
     <%= f.text_field :age %>
     <%= f.label :specialty_id %>
-    <%= f.collection_select :specialty_id, Specialty.all, :id, :name, { prompt: "Select Group"} %>
+    <%= f.collection_select :specialty_id, Specialty.all, :id, :name, { prompt: "Selecciona especialidad"} %>
+    <div>
+        <ul>
+            <li ng-repeat="service in services">
+                {{service.name}}
+                {{service.price}}
+            </li>
+        </ul>
+        <form>
+            <input type="text" ng-model="newService.name">
+            <input type="number" ng-model="newService.price">
+            <input type="submit" value="Agregar servicio">
+        </form>
+    </div>
     <%= f.submit @doctor.new_record? ? "Guardar" : "Editar" %>
 <% end %>

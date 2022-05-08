@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_30_184042) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_30_191330) do
   create_table "doctors", force: :cascade do |t|
     t.string "name"
     t.string "lastname"
@@ -21,6 +21,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_30_184042) do
     t.index ["specialty_id"], name: "index_doctors_on_specialty_id"
   end
 
+  create_table "services", force: :cascade do |t|
+    t.string "name"
+    t.integer "price"
+    t.integer "doctor_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["doctor_id"], name: "index_services_on_doctor_id"
+  end
+
   create_table "specialties", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -28,4 +37,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_30_184042) do
   end
 
   add_foreign_key "doctors", "specialties"
+  add_foreign_key "services", "doctors"
 end
