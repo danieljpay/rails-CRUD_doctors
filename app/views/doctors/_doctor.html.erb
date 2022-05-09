@@ -5,6 +5,7 @@
         Edad: <%= doctor.age %>
         Especialidad: <%= Specialty.find(doctor.specialty_id).name %> 
         -
+        <!-- 
         <%= link_to edit_doctor_path(doctor), title:"Edit" do %>
             Editar
         <% end %>
@@ -12,6 +13,7 @@
         <%= link_to destroy_doctor_path(doctor), method: :delete, title:"Delete", data: { confirm: "¿Estás seguro de eliminar a este doctor?" } do %>
             Eliminar
         <% end %>
+        -->
     </p>
 
 </li>

@@ -1,15 +1,13 @@
-<h1>Registremos algunos servicios</h1>
 
-<%= link_to services_path do %>
-    Ver servicios
-<% end %>
 
-    <br/><br/>
-
-<%= link_to new_doctor_path do %>
+<%
+=begin%>
+ 
+    <%= link_to new_doctor_path do %>
     Registrar doctor
-<% end %>
-
-<ol>
-    <%= render @doctors %>
-</ol>
+    <% end %>
+        <ol>
+            <%= render @doctors %>
+        </ol> 
+<%
+=end%>

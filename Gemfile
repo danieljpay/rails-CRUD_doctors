@@ -66,3 +66,12 @@ gem 'jquery-rails'
 
 # jquery-ui
 gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
+
+# manage js dependencies
+gem 'bower-rails'
+
+# responders
+gem 'responders'
+
+# csrf token
+gem 'angular_rails_csrf'

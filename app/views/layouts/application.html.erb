@@ -8,10 +8,10 @@
 
     <%= stylesheet_link_tag "application" %>
     <%= javascript_importmap_tags %>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <!-- <%= javascript_include_tag 'application' %> -->
   </head>
 
-  <body>
+  <body ng-app="hospitalApp">
     <%= yield %>
   </body>
 </html>

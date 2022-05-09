@@ -1,4 +1,7 @@
-<%= form_for(@doctor, url: @doctor.new_record? ? create_doctor_path : update_doctor_path(@doctor)) do |f| %>
+<%
+=begin%>
+
+ <%= form_for(@doctor, url: @doctor.new_record? ? create_doctor_path : update_doctor_path(@doctor)) do |f| %>
     <%= f.label :name %>
     <%= f.text_field :name %>
     <%= f.label :lastname %>
@@ -21,4 +24,7 @@
         </form>
     </div>
     <%= f.submit @doctor.new_record? ? "Guardar" : "Editar" %>
-<% end %>
+<% end %> 
+
+<%
+=end%>

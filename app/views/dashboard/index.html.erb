@@ -1,0 +1,77 @@
+<div class="container">
+    <div>
+        <h1>Registremos algunos doctores</h1>
+    </div>
+    <div class="row" ng-controller="doctorsController">
+        <div class="col-md-16" style="margin-bottom: 3vh;">
+            Registrar doctor
+            <div class="col-md-16"> 
+                <form class="row g-3" ng-submit="addDoctor()">
+                    <div class="col-auto">
+                        <input type="text" class="form-control" name="name" placeholder="Nombre" ng-model="doctor.name" />
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" name="lastname" placeholder="Apellido" ng-model="doctor.lastname" />
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" name="age" placeholder="Edad" ng-model="doctor.age" />
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                    </div>
+                </form>
+             </div>
+        </div>
+
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-md-3">Nombre</th>
+                        <th class="col-md-2">Apellido</th>
+                        <th class="col-md-3">Edad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="doctor in doctors" ng-include="toggleForm(doctor)">
+                        <!--
+                        <td>{{doctor.name}}</td>
+                        <td>{{doctor.lastname}}</td>
+                        <td>{{doctor.age}}</td>
+                        -->
+                    </tr>
+                </tbody>
+            </table>
+            <script type="text/ng-template" id="form">
+                <td>
+                    <input ng-model="editing.name" type="text" class="form-control" name="name" />
+                </td>
+                <td>
+                    <input ng-model="editing.lastname" type="text" class="form-control" name="lastname" />
+                </td>
+                <td>
+                    <input ng-model="editing.age" type="text" class="form-control" name="age" />
+                </td>
+                <td>
+                    <button ng-click="hideForm()" class="btn btn-default btn-xs">Cancelar</button>
+                    <button ng-click="updateDoctor($index)" class="btn btn-success btn-xs">Guardar</button>
+                </td>
+                </script>
+                <script type="text/ng-template" id="row">
+                <td>
+                    <span>{{doctor.name}}</span>
+                </td>
+                <td>
+                    <span>{{doctor.lastname}}</span>
+                </td>
+                <td>
+                    <span>{{doctor.age}}</span>
+                </td>
+                <td>
+                    <button ng-click="editDoctor(doctor)" class="btn btn-primary btn-xs">Editar</button>
+                    <button ng-click="destroyDoctor(doctor, $index)" class="btn btn-danger btn-xs">Eliminar</button>
+                </td>
+            </script>
+        </div>
+    </div>
+</div>
