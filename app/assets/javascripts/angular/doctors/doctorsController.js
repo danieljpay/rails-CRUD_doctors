@@ -1,7 +1,8 @@
 var app = angular.module('hospitalApp');
 
-app.controller('doctorsController', ['$scope', 'Doctor', function($scope, Doctor) {
+app.controller('doctorsController', ['$scope', 'Doctor', 'Specialty', function($scope, Doctor, Specialty) {
     $scope.doctors = Doctor.query();
+    $scope.specialties = Specialty.query();
     $scope.editing = {};
 
     $scope.addDoctor = function() {

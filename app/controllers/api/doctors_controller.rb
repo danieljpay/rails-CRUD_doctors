@@ -4,7 +4,7 @@ module Api
     respond_to :json
 
     def index  
-      respond_with Doctor.all  
+      respond_with Doctor.all
     end
 
     def create
@@ -32,7 +32,7 @@ module Api
     private
 
     def doctor_params
-      params.require(:doctor).permit(:name, :lastname, :age) # here is missing specialty_id
+      params.require(:doctor).permit(:name, :lastname, :age, :specialty_id)
     end
 
     def set_doctor

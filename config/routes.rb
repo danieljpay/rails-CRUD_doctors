@@ -8,4 +8,10 @@ Rails.application.routes.draw do
     resources :doctors, only: [:index, :create, :update, :destroy] do
     end
   end
+
+  namespace :api do
+    resources :specialties, only: [:index] do 
+    end
+  end
+  
 end

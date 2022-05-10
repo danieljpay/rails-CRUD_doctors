@@ -8,13 +8,21 @@
             <div class="col-md-16"> 
                 <form class="row g-3" ng-submit="addDoctor()">
                     <div class="col-auto">
-                        <input type="text" class="form-control" name="name" placeholder="Nombre" ng-model="doctor.name" />
+                        <input type="text" class="form-control" name="name" placeholder="Nombre" ng-model="doctor.name" required />
                     </div>
                     <div class="col-auto">
-                        <input type="text" class="form-control" name="lastname" placeholder="Apellido" ng-model="doctor.lastname" />
+                        <input type="text" class="form-control" name="lastname" placeholder="Apellido" ng-model="doctor.lastname" required />
                     </div>
                     <div class="col-auto">
-                        <input type="text" class="form-control" name="age" placeholder="Edad" ng-model="doctor.age" />
+                        <input type="text" class="form-control" name="age" placeholder="Edad" ng-model="doctor.age" required />
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-select" name="specialty" ng-model="doctor.specialty_id" required>
+                            <option value="" disabled selected>Especialidad</option>
+                            <option ng-repeat="specialty in specialties" value="{{specialty.id}}">
+                                {{specialty.name}}
+                            </option>
+                        </select>
                     </div>
                     <div class="col-auto">
                         <button type="submit" class="btn btn-primary">Agregar</button>
@@ -27,21 +35,21 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="col-md-3">Nombre</th>
+                        <th class="col-md-2">Nombre</th>
                         <th class="col-md-2">Apellido</th>
-                        <th class="col-md-3">Edad</th>
+                        <th class="col-md-2">Edad</th>
+                        <th class="col-md-2">Especialidad</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="doctor in doctors" ng-include="toggleForm(doctor)">
                         <!--
-                        <td>{{doctor.name}}</td>
-                        <td>{{doctor.lastname}}</td>
-                        <td>{{doctor.age}}</td>
+                            Esto se rellena con el script de abajo
                         -->
                     </tr>
                 </tbody>
             </table>
+
             <script type="text/ng-template" id="form">
                 <td>
                     <input ng-model="editing.name" type="text" class="form-control" name="name" />
@@ -51,6 +59,11 @@
                 </td>
                 <td>
                     <input ng-model="editing.age" type="text" class="form-control" name="age" />
+                </td>
+                <td>
+                    <select class="form-select" name="specialty" ng-model="editing.specialty_id" 
+                            ng-options="specialty.id as specialty.name for specialty in specialties">
+                    </select>
                 </td>
                 <td>
                     <button ng-click="hideForm()" class="btn btn-default btn-xs">Cancelar</button>
@@ -68,10 +81,14 @@
                     <span>{{doctor.age}}</span>
                 </td>
                 <td>
+                    <span>{{specialties[doctor.specialty_id - 1].name}}</span>
+                </td>
+                <td>
                     <button ng-click="editDoctor(doctor)" class="btn btn-primary btn-xs">Editar</button>
                     <button ng-click="destroyDoctor(doctor, $index)" class="btn btn-danger btn-xs">Eliminar</button>
                 </td>
             </script>
+            
         </div>
     </div>
 </div>

@@ -13,3 +13,7 @@ app.factory('Doctor', ['$resource', function($resource) {
         }
     });
 }]);
+
+app.factory('Specialty', ['$resource', function($resource) {
+    return $resource('/api/specialties/:id.json', { id: '@id' });
+}]);
