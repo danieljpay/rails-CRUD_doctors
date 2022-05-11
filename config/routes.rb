@@ -13,5 +13,10 @@ Rails.application.routes.draw do
     resources :specialties, only: [:index] do 
     end
   end
+
+  namespace :api do
+    resources :services, only: [:index, :create, :update, :destroy] do
+    end
+  end
   
 end

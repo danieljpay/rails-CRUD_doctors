@@ -1,8 +1,10 @@
 var app = angular.module('hospitalApp');
 
-app.controller('doctorsController', ['$scope', 'Doctor', 'Specialty', function($scope, Doctor, Specialty) {
+app.controller('doctorsController', ['$scope', 'Doctor', 'Specialty', 'Service', function($scope, Doctor, Specialty, Service) {
     $scope.doctors = Doctor.query();
     $scope.specialties = Specialty.query();
+    $scope.services = Service.query();
+    $scope.localServices = [];
     $scope.editing = {};
 
     $scope.addDoctor = function() {
@@ -16,7 +18,25 @@ app.controller('doctorsController', ['$scope', 'Doctor', 'Specialty', function($
             }
         );
 
+        for (let i = 0; i < $scope.localServices.length; i++) {
+            $scope.localServices[i].doctor_id = $scope.doctors[$scope.doctors.length - 1].id;
+            Service.save($scope.localServices[i],
+                function(response, _headers) {
+                    $scope.services.push(response);
+                },
+                function(response) {
+                    alert('Errors' + response.data.errors.join('. '));
+                }
+            );
+        }
+
         $scope.doctor = {};
+        $scope.localServices = [];
+    }
+
+    $scope.addService = function() {
+        $scope.localServices.push($scope.service);
+        $scope.service = {};
     }
 
     $scope.hideForm = function() {
@@ -33,6 +53,13 @@ app.controller('doctorsController', ['$scope', 'Doctor', 'Specialty', function($
 
     $scope.editDoctor = function(doctor) {
         $scope.editing = angular.copy(doctor);
+        $scope.editingServices = [];
+
+        for (let i = 0; i < $scope.services.length; i++) {
+            if ($scope.services[i].doctor_id == $scope.editing.id) {
+                $scope.editingServices.push($scope.services[i]);
+            }
+        }
     }
 
     $scope.updateDoctor = function(index) {
@@ -45,6 +72,23 @@ app.controller('doctorsController', ['$scope', 'Doctor', 'Specialty', function($
                 alert('Errors: ' + response.data.errors.join('. '));
             }
         );
+
+        for (let i = 0; i < $scope.editingServices.length; i++) {
+            Service.update($scope.editingServices[i],
+                function(response, _headers) {
+                    for (let j = 0; j < $scope.services.length; j++) {
+                        if ($scope.services[j].doctor_id == $scope.editing.id) {
+                            $scope.services[j] = $scope.editingServices[i];
+                        }
+                    }
+                    //$scope.hideForm();
+                },
+                function(response) {
+                    alert('Errors: ' + response.data.errors.join('. '));
+                }
+            )
+        }
+
     }
 
     $scope.destroyDoctor = function(doctor, index) {
@@ -53,5 +97,13 @@ app.controller('doctorsController', ['$scope', 'Doctor', 'Specialty', function($
                 $scope.doctors.splice(index, 1);
             }
         );
+    }
+
+    $scope.destroyService = function(service, index) {
+        Service.delete(service,
+            function(response, _headers) {
+                $scope.services.splice(index, 1);
+                $scope.editingServices.splice(index, 1);
+            })
     }
 }])

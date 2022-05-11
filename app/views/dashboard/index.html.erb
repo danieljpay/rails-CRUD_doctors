@@ -4,7 +4,7 @@
     </div>
     <div class="row" ng-controller="doctorsController">
         <div class="col-md-16" style="margin-bottom: 3vh;">
-            Registrar doctor
+            Registrar nuevo doctor
             <div class="col-md-16"> 
                 <form class="row g-3" ng-submit="addDoctor()">
                     <div class="col-auto">
@@ -29,66 +29,94 @@
                     </div>
                 </form>
              </div>
+            <hr/>
+            Agregar servicios al nuevo doctor
+             <div class="col-md-16"> 
+                <form class="row g-3" ng-submit="addService()">
+                    <div class="col-auto">
+                        <input type="text" class="form-control" name="name" placeholder="Nombre" ng-model="service.name" required />
+                    </div>
+                    <div class="col-auto">
+                        <input type="number" class="form-control" name="price" placeholder="Precio" ng-model="service.price" required />
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                    </div>
+                </form>
+             </div>
         </div>
 
+        <div>
+            <p ng-repeat="service in localServices">
+                {{service.name}} - {{service.price}}
+            </p>
+        </div>
+
+        <hr/>
+
         <div class="col-md-12">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th class="col-md-2">Nombre</th>
-                        <th class="col-md-2">Apellido</th>
-                        <th class="col-md-2">Edad</th>
-                        <th class="col-md-2">Especialidad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="doctor in doctors" ng-include="toggleForm(doctor)">
-                        <!--
-                            Esto se rellena con el script de abajo
-                        -->
-                    </tr>
-                </tbody>
-            </table>
+            
+            <div class="row col-md-16" ng-repeat="doctor in doctors" ng-include="toggleForm(doctor)">
+                <!--
+                    Esto se rellena con el script de abajo
+                -->
+            </div>
 
             <script type="text/ng-template" id="form">
-                <td>
-                    <input ng-model="editing.name" type="text" class="form-control" name="name" />
-                </td>
-                <td>
-                    <input ng-model="editing.lastname" type="text" class="form-control" name="lastname" />
-                </td>
-                <td>
-                    <input ng-model="editing.age" type="text" class="form-control" name="age" />
-                </td>
-                <td>
-                    <select class="form-select" name="specialty" ng-model="editing.specialty_id" 
-                            ng-options="specialty.id as specialty.name for specialty in specialties">
-                    </select>
-                </td>
-                <td>
-                    <button ng-click="hideForm()" class="btn btn-default btn-xs">Cancelar</button>
-                    <button ng-click="updateDoctor($index)" class="btn btn-success btn-xs">Guardar</button>
-                </td>
+                <div>
+                    Datos doctor
+                    <div class="row g-3">
+                        <div class="col-auto">
+                            <input ng-model="editing.name" type="text" class="form-control col-auto" name="name" />
+                        </div>
+                        <div class="col-auto">
+                            <input ng-model="editing.lastname" type="text" class="form-control col-auto" name="lastname" />
+                        </div>
+                        <div class="col-auto">
+                            <input ng-model="editing.age" type="text" class="form-control col-auto" name="age" />
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select col-auto" name="specialty" ng-model="editing.specialty_id" 
+                                    ng-options="specialty.id as specialty.name for specialty in specialties">
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <br/>
+                        <div>Servicios</div>
+                        <div class="row g-3" ng-repeat="service in editingServices track by service.id">
+                            <div class="col-auto">
+                                <input ng-model="service.name" type="text" class="form-control col-auto" name="name" />
+                            </div>
+                            <div class="col-auto">
+                                <input type="number" class="form-control col-auto" name="price" ng-model="service.price" />
+                            </div>
+                            <div class="col-auto">
+                                <button ng-click="destroyService(service, $index)" class="btn btn-danger btn-xs">&#88;</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2" style="margin-top: 3vh; margin-bottom: 3vh">
+                        <button ng-click="hideForm()" class="btn btn-default btn-xs">Cancelar</button>
+                        <button ng-click="updateDoctor($index)" class="btn btn-success btn-xs">Guardar</button>
+                    </div>
+                </div>
+                
                 </script>
                 <script type="text/ng-template" id="row">
-                <td>
-                    <span>{{doctor.name}}</span>
-                </td>
-                <td>
-                    <span>{{doctor.lastname}}</span>
-                </td>
-                <td>
-                    <span>{{doctor.age}}</span>
-                </td>
-                <td>
-                    <span>{{specialties[doctor.specialty_id - 1].name}}</span>
-                </td>
-                <td>
+                <div class="row col-8">
+                    <span class="col-3">{{doctor.name}}</span>
+                    <span class="col-3">{{doctor.lastname}}</span>
+                    <span class="col-3">{{doctor.age}}</span>
+                    <span class="col-3">{{specialties[doctor.specialty_id - 1].name}}</span>
+                    <hr/>
+                </div>
+                <div class="col-3">
                     <button ng-click="editDoctor(doctor)" class="btn btn-primary btn-xs">Editar</button>
                     <button ng-click="destroyDoctor(doctor, $index)" class="btn btn-danger btn-xs">Eliminar</button>
-                </td>
+                </div>
             </script>
-            
+
         </div>
     </div>
 </div>
