@@ -12,7 +12,7 @@ module Api
       if doctor.save
         respond_with  :api, doctor, status: :ok, location: api_doctors_url
       else
-        render json: { errors: doctors.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: doctor.errors.full_messages }, status: :unprocessable_entity
       end
     end
 

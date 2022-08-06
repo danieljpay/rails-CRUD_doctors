@@ -12,7 +12,7 @@ module Api
             if service.save
                 respond_with :api, service, status: :ok, location: api_services_url
             else
-                render json: { errors: services.errors.full_messages }, status: :unprocessable_entity
+                render json: { errors: service.errors.full_messages }, status: :unprocessable_entity
             end
         end
 

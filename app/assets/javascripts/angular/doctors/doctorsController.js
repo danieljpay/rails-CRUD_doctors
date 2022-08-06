@@ -18,8 +18,19 @@ app.controller('doctorsController', ['$scope', 'Doctor', 'Specialty', 'Service',
             }
         );
 
+        console.log($scope.doctors);
+
+        $scope.saveServices();
+
+        console.log($scope.localServices);
+
+        $scope.doctor = {};
+        $scope.localServices = [];
+    }
+
+    $scope.saveServices = function() {
         for (let i = 0; i < $scope.localServices.length; i++) {
-            $scope.localServices[i].doctor_id = $scope.doctors[$scope.doctors.length - 1].id;
+            $scope.localServices[i].doctor_id = $scope.doctors[$scope.doctors.length - 1].id + 1; //el +1 no debería ir pero no se actualiza el array de doctores
             Service.save($scope.localServices[i],
                 function(response, _headers) {
                     $scope.services.push(response);
@@ -29,9 +40,6 @@ app.controller('doctorsController', ['$scope', 'Doctor', 'Specialty', 'Service',
                 }
             );
         }
-
-        $scope.doctor = {};
-        $scope.localServices = [];
     }
 
     $scope.addService = function() {
@@ -73,25 +81,39 @@ app.controller('doctorsController', ['$scope', 'Doctor', 'Specialty', 'Service',
             }
         );
 
-        for (let i = 0; i < $scope.editingServices.length; i++) {
-            Service.update($scope.editingServices[i],
-                function(response, _headers) {
-                    for (let j = 0; j < $scope.services.length; j++) {
-                        if ($scope.services[j].doctor_id == $scope.editing.id) {
-                            $scope.services[j] = $scope.editingServices[i];
+        if ($scope.editingServices.length > 0) {
+            for (let i = 0; i < $scope.editingServices.length; i++) {
+                Service.update($scope.editingServices[i],
+                    function(response, _headers) {
+                        for (let j = 0; j < $scope.services.length; j++) {
+                            if ($scope.services[j].doctor_id == $scope.editing.id) {
+                                $scope.services[j] = $scope.editingServices[i];
+                            }
                         }
+                        //$scope.hideForm();
+                    },
+                    function(response) {
+                        alert('Errors: ' + response.data.errors.join('. '));
                     }
-                    //$scope.hideForm();
-                },
-                function(response) {
-                    alert('Errors: ' + response.data.errors.join('. '));
-                }
-            )
+                )
+            }
         }
 
     }
 
     $scope.destroyDoctor = function(doctor, index) {
+
+        //destroy services
+        for (let i = 0; i < $scope.services.length; i++) {
+            if ($scope.services[i].doctor_id == doctor.id) {
+                Service.delete($scope.services[i],
+                    function(response, _headers) {
+                        $scope.services.splice(index, 1);
+                    }
+                )
+            }
+        }
+
         Doctor.delete(doctor,
             function(response, _headers) {
                 $scope.doctors.splice(index, 1);
